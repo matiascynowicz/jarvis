@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>J.A.R.V.I.S.</title>
+  <meta name="description" content="Asistente personal JARVIS">
+  <meta name="theme-color" content="#02070d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Jarvis">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="iconos/icono-192.png">
+  <link rel="apple-touch-icon" href="iconos/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body class="estado-reposo" data-seccion="jarvis">
+  <div class="fondo" aria-hidden="true"></div>
+
+  <header class="barra">
+    <div class="logo">
+      <span class="logo-nombre">J.A.R.V.I.S.</span>
+      <span class="logo-sub">Just A Rather Very Intelligent System</span>
+    </div>
+    <div class="reloj">
+      <span id="hora">--:--</span>
+      <span id="fecha">—</span>
+    </div>
+    <div class="chips">
+      <span class="chip" id="chip-ia" title="Conexión con Claude"><i></i>IA</span>
+      <button class="chip" id="chip-google" title="Conectar Google (Gmail, Calendar, Drive)" hidden><i></i>Google</button>
+      <span class="chip" id="chip-sync" title="Sincronización entre dispositivos"><i></i>Sync</span>
+      <button class="icono" id="btn-ajustes" title="Ajustes" aria-label="Ajustes">
+        <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm8.4-2.5.1-1-.1-1 2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-1.7-1L16 3.5h-4l-.4 2.5a7.6 7.6 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6-.1 1 .1 1-2 1.6 2 3.4 2.4-1c.5.4 1.1.7 1.7 1l.4 2.5h4l.4-2.5c.6-.3 1.2-.6 1.7-1l2.4 1 2-3.4-2-1.6Z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="hud">
+    <!-- ============ IZQUIERDA: AGENDA ============ -->
+    <section class="columna" id="sec-agenda">
+      <article class="panel">
+        <h2><span>Agenda</span><small id="agenda-rango">hoy y mañana</small></h2>
+        <ul class="lista" id="lista-eventos"></ul>
+      </article>
+      <article class="panel">
+        <h2><span>Recordatorios</span><small id="cuenta-recordatorios"></small></h2>
+        <ul class="lista" id="lista-recordatorios"></ul>
+      </article>
+      <article class="panel crece">
+        <h2><span>Tareas</span><small id="cuenta-tareas"></small></h2>
+        <ul class="lista" id="lista-tareas"></ul>
+        <form class="rapido" id="form-tarea" autocomplete="off">
+          <input id="nueva-tarea" placeholder="+ nueva tarea" aria-label="Nueva tarea">
+        </form>
+      </article>
+    </section>
+
+    <!-- ============ CENTRO: JARVIS ============ -->
+    <section class="columna centro" id="sec-jarvis">
+      <button class="reactor" id="reactor" aria-label="Hablarle a Jarvis" title="Tocá para hablar">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <defs>
+            <radialGradient id="nucleo" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="35%" stop-color="var(--cian)"/>
+              <stop offset="100%" stop-color="var(--cian)" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle class="r r-marcas" cx="150" cy="150" r="140"/>
+          <circle class="r r-ext" cx="150" cy="150" r="128"/>
+          <circle class="r r-seg" cx="150" cy="150" r="112"/>
+          <circle class="r r-seg2" cx="150" cy="150" r="96"/>
+          <g class="r-bobinas">
+            <rect x="143" y="62" width="14" height="22" rx="2"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(36 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(72 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(108 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(144 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(180 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(216 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(252 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(288 150 150)"/>
+            <rect x="143" y="62" width="14" height="22" rx="2" transform="rotate(324 150 150)"/>
+          </g>
+          <circle class="r r-int" cx="150" cy="150" r="56"/>
+          <circle class="r-brillo" cx="150" cy="150" r="54" fill="url(#nucleo)"/>
+          <circle class="r-centro" cx="150" cy="150" r="22"/>
+        </svg>
+      </button>
+      <div class="estado" id="estado-texto">EN LÍNEA</div>
+      <div class="parcial" id="parcial"></div>
+
+      <div class="chat" id="chat" aria-live="polite"></div>
+
+      <form class="entrada" id="form-chat" autocomplete="off">
+        <button type="button" class="btn-vigilia" id="btn-vigilia" title='Modo "Hey Jarvis": escucha hasta que digas su nombre'>
+          <svg viewBox="0 0 24 24"><path d="M2 12c3-6 7-8 10-8s7 2 10 8c-3 6-7 8-10 8s-7-2-10-8Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+        </button>
+        <input id="texto" placeholder="Escribí o tocá el micrófono…" aria-label="Mensaje para Jarvis" enterkeyhint="send">
+        <button type="button" class="btn-mic" id="btn-mic" title="Hablar">
+          <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button type="submit" class="btn-enviar" title="Enviar">
+          <svg viewBox="0 0 24 24"><path d="M4 12 20 4l-6 16-2.5-6.5L4 12Z" fill="currentColor"/></svg>
+        </button>
+      </form>
+    </section>
+
+    <!-- ============ DERECHA: FINANZAS ============ -->
+    <section class="columna" id="sec-finanzas">
+      <article class="panel">
+        <h2><span>Finanzas</span><small id="fin-mes"></small></h2>
+        <div class="balance">
+          <span class="etq">Balance del mes</span>
+          <span class="monto" id="fin-balance">0</span>
+        </div>
+        <div class="dos">
+          <div><span class="etq">Ingresos</span><span class="verde" id="fin-ingresos">0</span></div>
+          <div><span class="etq">Gastos</span><span class="rojo" id="fin-gastos">0</span></div>
+        </div>
+      </article>
+      <article class="panel">
+        <h2><span>Gastos por categoría</span></h2>
+        <ul class="barras" id="fin-categorias"></ul>
+      </article>
+      <article class="panel crece">
+        <h2><span>Últimos movimientos</span></h2>
+        <ul class="lista" id="fin-movimientos"></ul>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pestanas" aria-label="Secciones">
+    <button data-ir="agenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6"/></svg>Agenda</button>
+    <button data-ir="jarvis"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/></svg>Jarvis</button>
+    <button data-ir="finanzas"><svg viewBox="0 0 24 24"><path d="M4 19V11M10 19V5M16 19v-6M22 19H2" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Finanzas</button>
+  </nav>
+
+  <!-- ============ AJUSTES ============ -->
+  <dialog id="ajustes">
+    <form method="dialog" class="ajustes" id="form-ajustes">
+      <h2>Ajustes del sistema</h2>
+      <p class="bienvenida" id="bienvenida" hidden>Bienvenido. Para arrancar solo necesito tu clave de API de Claude. Se guarda <b>solo en este dispositivo</b>.</p>
+
+      <fieldset>
+        <legend>Cerebro (Claude)</legend>
+        <label>Clave de API
+          <input type="password" id="aj-api" placeholder="sk-ant-..." autocomplete="off">
+          <small>Creala en <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> → API Keys. Necesitás crédito cargado.</small>
+        </label>
+        <label>Modelo
+          <select id="aj-modelo">
+            <option value="claude-sonnet-5-5">Sonnet 5.5 — equilibrado (recomendado)</option>
+            <option value="claude-haiku-5-5">Haiku 5.5 — el más rápido y barato</option>
+            <option value="claude-opus-5-5">Opus 5.5 — el más inteligente</option>
+          </select>
+        </label>
+        <label class="fila"><input type="checkbox" id="aj-web"> Permitir búsquedas en internet (clima, noticias, precios)</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Personal</legend>
+        <label>¿Cómo te llamo?
+          <input id="aj-nombre" placeholder="señor">
+        </label>
+        <label>Moneda principal
+          <input id="aj-moneda" placeholder="UYU" maxlength="3">
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Voz</legend>
+        <label class="fila"><input type="checkbox" id="aj-hablar"> Responder en voz alta</label>
+        <label>Voz
+          <select id="aj-voz"><option value="">Automática</option></select>
+        </label>
+        <label>Velocidad <input type="range" id="aj-velocidad" min="0.8" max="1.4" step="0.05"></label>
+        <button type="button" class="sec" id="aj-probar">Probar voz</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sincronizar PC ↔ celular</legend>
+        <label>Token de GitHub (permiso "gist")
+          <input type="password" id="aj-gh" placeholder="ghp_... o github_pat_..." autocomplete="off">
+          <small>Tus datos se guardan en un Gist <b>privado</b> de tu cuenta. Poné el mismo token en la PC y en el celular. Ver README.</small>
+        </label>
+        <div class="estado-sync" id="aj-sync-estado"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Google (Gmail, Calendar, Drive) — opcional</legend>
+        <label>Client ID de Google
+          <input id="aj-google" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+          <small>Ver README, sección "Conectar Google".</small>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Datos</legend>
+        <div class="botones">
+          <button type="button" class="sec" id="aj-exportar">Exportar copia</button>
+          <button type="button" class="sec" id="aj-importar">Importar copia</button>
+          <button type="button" class="sec peligro" id="aj-borrar-chat">Borrar conversación</button>
+        </div>
+        <input type="file" id="aj-archivo" accept="application/json" hidden>
+      </fieldset>
+
+      <div class="acciones">
+        <button value="cancelar" class="sec" formnovalidate>Cerrar</button>
+        <button value="guardar" id="aj-guardar">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="assertive"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
